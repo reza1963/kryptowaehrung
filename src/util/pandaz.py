@@ -16,9 +16,9 @@ class Pandaz:
         prices = pds.read_csv(self.path + self.csv_files["price"])
         supply = pds.read_csv(self.path + self.csv_files["supply"])
 
-        prices = pds.melt(prices, id_vars=["date"], value_vars=prices.columns[1:], var_name="cur", value_name="price")
-        supply = pds.melt(supply, id_vars=["date"], value_vars=supply.columns[1:], var_name="cur", value_name="supply")
-        mcap = pds.melt(mcap, id_vars=["date"], value_vars=mcap.columns[1:], var_name="cur", value_name="mcap")
+        prices = pds.melt(prices, id_vars=[Constant.DATE_COL], value_vars=prices.columns[1:], var_name="cur", value_name="price")
+        supply = pds.melt(supply, id_vars=[Constant.DATE_COL], value_vars=supply.columns[1:], var_name="cur", value_name="supply")
+        mcap = pds.melt(mcap, id_vars=[Constant.DATE_COL], value_vars=mcap.columns[1:], var_name="cur", value_name="mcap")
 
         mcap, prices, supply = self.create_and_set_index(mcap, prices, supply)
 
