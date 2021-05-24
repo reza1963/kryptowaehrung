@@ -14,5 +14,6 @@ chmod +x environment.sh && ./environment.sh
     
 # Links
 [pandas](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.qcut.html)
+
 [calendar](https://docs.python.org/3/library/calendar.html)
 
