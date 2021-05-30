@@ -8,8 +8,9 @@ class Pandaz:
     csv_files = dict({"mcap": "Top100_MCap.csv", "price": "Top100_Prices.csv", "supply": "Top100_Supply.csv"})
     path = "../data/"
 
-    def __init__(self, path):
+    def __init__(self, path, year):
         self.path = path
+        self.year = year
 
     def dataframes(self):
         mcap = pds.read_csv(self.path + self.csv_files["mcap"])
@@ -27,21 +28,25 @@ class Pandaz:
     def create_and_set_index(self, mcap, prices, supply):
         mcap[Constant.DATE_INDEX] = pds.to_datetime(mcap[Constant.DATE_COL])
         mcap = mcap.set_index(pds.DatetimeIndex(mcap[Constant.DATE_INDEX]))
+        mcap = mcap[mcap[Constant.DATE_INDEX].dt.year == self.year]
+        mcap = mcap.set_index(pds.DatetimeIndex(mcap[Constant.DATE_INDEX]))
 
         prices[Constant.DATE_INDEX] = pds.to_datetime(prices[Constant.DATE_COL])
+        prices = prices.set_index(pds.DatetimeIndex(prices[Constant.DATE_INDEX]))
+        prices = prices[prices[Constant.DATE_INDEX].dt.year == self.year]
         prices = prices.set_index(pds.DatetimeIndex(prices[Constant.DATE_INDEX]))
 
         supply[Constant.DATE_INDEX] = pds.to_datetime(supply[Constant.DATE_COL])
         supply = supply.set_index(pds.DatetimeIndex(supply[Constant.DATE_INDEX]))
+        supply = supply[supply[Constant.DATE_INDEX].dt.year == self.year]
+        supply = supply.set_index(pds.DatetimeIndex(supply[Constant.DATE_INDEX]))
 
         return mcap, prices, supply
 
-    def box_plot(self, df, col, year):
-        df_year = df[df[Constant.DATE_INDEX].dt.year == year]
-        df_year = df_year.set_index(pds.DatetimeIndex(df_year[Constant.DATE_INDEX]))
+    def box_plot(self, df, col):
         sns.set(rc={'figure.figsize': (15, 5)})
-        df_year[Constant.DATE_INDEX] = df_year.index.month_name()
-        sns.boxplot(data=df_year, x=Constant.DATE_INDEX, y=col)
+        df[Constant.DATE_INDEX] = df.index.month_name()
+        sns.boxplot(data=df, x=Constant.DATE_INDEX, y=col)
 
         plt.show()
 

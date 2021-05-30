@@ -1,6 +1,6 @@
 from src.util.pandaz import Pandaz
 
-pandaz = Pandaz("data/")
+pandaz = Pandaz("data/", 2020)
 m, p, s = pandaz.dataframes()
 
 print(" ***** mcap ***")
@@ -12,9 +12,9 @@ print(p)
 print(" ***** supply ***")
 print(s)
 
-pandaz.box_plot(s, "supply", 2020)
-pandaz.box_plot(m, "mcap", 2020)
-pandaz.box_plot(p, "price", 2020)
+pandaz.box_plot(s, "supply")
+pandaz.box_plot(m, "mcap")
+pandaz.box_plot(p, "price")
 
 p = pandaz.group_by_cur(p)
 merged_df = pandaz.merge(p, m)
