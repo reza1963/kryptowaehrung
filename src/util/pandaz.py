@@ -36,10 +36,12 @@ class Pandaz:
 
         return mcap, prices, supply
 
-    def box_plot(self, df, col):
+    def box_plot(self, df, col, year):
+        df_year = df[df[Constant.DATE_INDEX].dt.year == year]
+        df_year = df_year.set_index(pds.DatetimeIndex(df_year[Constant.DATE_INDEX]))
         sns.set(rc={'figure.figsize': (15, 5)})
-        df[Constant.DATE_INDEX] = df.index.month_name()
-        sns.boxplot(data=df, x=Constant.DATE_INDEX, y=col)
+        df_year[Constant.DATE_INDEX] = df_year.index.month_name()
+        sns.boxplot(data=df_year, x=Constant.DATE_INDEX, y=col)
 
         plt.show()
 

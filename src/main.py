@@ -12,9 +12,9 @@ print(p)
 print(" ***** supply ***")
 print(s)
 
-pandaz.box_plot(s, "supply")
-pandaz.box_plot(m, "mcap")
-pandaz.box_plot(p, "price")
+pandaz.box_plot(s, "supply", 2020)
+pandaz.box_plot(m, "mcap", 2020)
+pandaz.box_plot(p, "price", 2020)
 
 p = pandaz.group_by_cur(p)
 merged_df = pandaz.merge(p, m)
