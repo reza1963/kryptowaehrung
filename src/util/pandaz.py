@@ -26,20 +26,9 @@ class Pandaz:
         return mcap, prices, supply
 
     def create_and_set_index(self, mcap, prices, supply):
-        mcap[Constant.DATE_INDEX] = pds.to_datetime(mcap[Constant.DATE_COL])
-        mcap = mcap.set_index(pds.DatetimeIndex(mcap[Constant.DATE_INDEX]))
-        mcap = mcap[mcap[Constant.DATE_INDEX].dt.year == self.year]
-        mcap = mcap.set_index(pds.DatetimeIndex(mcap[Constant.DATE_INDEX]))
-
-        prices[Constant.DATE_INDEX] = pds.to_datetime(prices[Constant.DATE_COL])
-        prices = prices.set_index(pds.DatetimeIndex(prices[Constant.DATE_INDEX]))
-        prices = prices[prices[Constant.DATE_INDEX].dt.year == self.year]
-        prices = prices.set_index(pds.DatetimeIndex(prices[Constant.DATE_INDEX]))
-
-        supply[Constant.DATE_INDEX] = pds.to_datetime(supply[Constant.DATE_COL])
-        supply = supply.set_index(pds.DatetimeIndex(supply[Constant.DATE_INDEX]))
-        supply = supply[supply[Constant.DATE_INDEX].dt.year == self.year]
-        supply = supply.set_index(pds.DatetimeIndex(supply[Constant.DATE_INDEX]))
+        mcap = self.select_by_year_and_add_index(mcap)
+        prices = self.select_by_year_and_add_index(prices)
+        supply = self.select_by_year_and_add_index(supply)
 
         return mcap, prices, supply
 
@@ -69,3 +58,11 @@ class Pandaz:
         df[Constant.WEIGHT_RETURN_AGG_COL] = df.groupby(Constant.DATE_COL)[Constant.WEIGHT_RETURN_COL].transform("sum")
 
         return df[[Constant.DATE_COL, Constant.WEIGHT_RETURN_AGG_COL]].drop_duplicates()
+
+    def select_by_year_and_add_index(self, df):
+        df[Constant.DATE_INDEX] = pds.to_datetime(df[Constant.DATE_COL])
+        df = df.set_index(pds.DatetimeIndex(df[Constant.DATE_INDEX]))
+        df = df[df[Constant.DATE_INDEX].dt.year == self.year]
+        df = df.set_index(pds.DatetimeIndex(df[Constant.DATE_INDEX]))
+
+        return df
