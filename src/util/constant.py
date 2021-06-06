@@ -9,3 +9,5 @@ class Constant:
     MCAP_AGG_COL = "mcap_agg"
     WEIGHT_RETURN_COL = "weight_return"
     WEIGHT_RETURN_AGG_COL = "weight_return_agg"
+    WEEK_OF_YEAR_COL = "woy"
+    MEAN_COL = "mean"

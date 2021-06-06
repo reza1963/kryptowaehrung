@@ -8,3 +8,4 @@ conda install -y -c anaconda unittest2
 conda install -y -c anaconda statsmodels
 conda install -y -c anaconda scikit-learn
 conda install -y -c quantopian trading-calendars
+conda install -y -c plotly plotly_express
