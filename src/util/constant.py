@@ -6,6 +6,7 @@ class Constant:
     PRICEY_COL = "pricey"
     PRICE_COL = "price"
     RETURN_COL = "return"
+    WEEKLY_RETURN_COL = "weekly_return"
     MCAP_AGG_COL = "mcap_agg"
     WEIGHT_RETURN_COL = "weight_return"
     WEIGHT_RETURN_AGG_COL = "weight_return_agg"

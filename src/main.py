@@ -3,7 +3,7 @@ from src.util.pandaz import Pandaz
 import warnings
 warnings.filterwarnings("ignore")
 
-pandaz = Pandaz("data/", 2020)
+pandaz = Pandaz("data/")
 m, p, s = pandaz.dataframes()
 
 p = pandaz.group_by_cur(p)

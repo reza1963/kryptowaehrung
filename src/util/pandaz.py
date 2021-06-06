@@ -10,9 +10,8 @@ class Pandaz:
     csv_files = dict({"mcap": "Top100_MCap.csv", "price": "Top100_Prices.csv", "supply": "Top100_Supply.csv"})
     path = "../data/"
 
-    def __init__(self, path, year):
+    def __init__(self, path):
         self.path = path
-        self.year = year
 
     def dataframes(self):
         mcap = pds.read_csv(self.path + self.csv_files["mcap"])
@@ -48,9 +47,10 @@ class Pandaz:
         plt.show()
 
     def group_by_cur(self, df):
-        # TODO: Why shift ?
         df[Constant.PRICEY_COL] = df.groupby(Constant.CURRENC_COL)[Constant.PRICE_COL].shift(periods=1)
         df[Constant.RETURN_COL] = (df[Constant.PRICE_COL] / df[Constant.PRICEY_COL]) - 1
+        # TODO: curent_prise /
+        df[Constant.WEEKLY_RETURN_COL] = 7
 
         return df
 
@@ -72,7 +72,7 @@ class Pandaz:
         df[Constant.DATE_INDEX] = pds.to_datetime(df[Constant.DATE_COL])
         df = df.set_index(pds.DatetimeIndex(df[Constant.DATE_INDEX]))
 
-        df = df[df[Constant.DATE_INDEX].dt.year == self.year ]
+        #df = df[df[Constant.DATE_INDEX].dt.year == self.year ]
         df = df.set_index(pds.DatetimeIndex(df[Constant.DATE_INDEX]))
 
         # df.drop([Constant.DATE_COL], axis='columns', inplace=True)
@@ -90,9 +90,7 @@ class Pandaz:
 
         # TODO ? df = df.join(df.groupby([Constant.CURRENC_COL, 'weekday'])[mean_to_calc_col].mean(), on=['hour', 'weekday'], rsuffix='_avg')
         print(df)
-        print(df.query('cur=="ADA"'))
+        #print(df.query('cur=="ADA"'))
 
     def remove_nan(self, df):
-        ## Remove NAN and Null
-        df = df.dropna()
-        return df
+        return df.dropna()
