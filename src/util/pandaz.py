@@ -50,18 +50,19 @@ class Pandaz:
     def group_by_cur(self, df):
         # TODO: Why shift ?
         df[Constant.PRICEY_COL] = df.groupby(Constant.CURRENC_COL)[Constant.PRICE_COL].shift(periods=1)
-        df[Constant.RETUTN_COL] = (df[Constant.PRICE_COL] / df[Constant.PRICEY_COL]) - 1
+        df[Constant.RETURN_COL] = (df[Constant.PRICE_COL] / df[Constant.PRICEY_COL]) - 1
 
         return df
 
     def merge(self, df1, df2):
         df = pds.merge(df1, df2, how="left", on=[Constant.DATE_COL, Constant.CURRENC_COL])
+
         df.drop('date_idx_y', axis='columns', inplace=True)
         # TODO: test
-        df = df[~pds.isna(df[Constant.RETUTN_COL])]
+        #df = df[~pds.isna(df[Constant.RETUTN_COL])]
         df[Constant.MCAP_AGG_COL] = df.groupby(Constant.DATE_COL)[Constant.MCAP_COL].transform("sum")
         # Calc weight for each currency's daily return by its mcap normalized by market mcap
-        df[Constant.WEIGHT_RETURN_COL] = df[Constant.RETUTN_COL] * df[Constant.MCAP_COL] / df[Constant.MCAP_AGG_COL]
+        df[Constant.WEIGHT_RETURN_COL] = df[Constant.RETURN_COL] * df[Constant.MCAP_COL] / df[Constant.MCAP_AGG_COL]
         # Collapse it at the day level
         df[Constant.WEIGHT_RETURN_AGG_COL] = df.groupby(Constant.DATE_COL)[Constant.WEIGHT_RETURN_COL].transform("sum")
 
@@ -74,7 +75,7 @@ class Pandaz:
         df = df[df[Constant.DATE_INDEX].dt.year == self.year ]
         df = df.set_index(pds.DatetimeIndex(df[Constant.DATE_INDEX]))
 
-        df.drop([Constant.DATE_COL], axis='columns', inplace=True)
+        # df.drop([Constant.DATE_COL], axis='columns', inplace=True)
         # df.drop([Constant.DATE_INDEX], axis='columns', inplace=True)
 
         return df
