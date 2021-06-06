@@ -27,6 +27,9 @@ class Pandaz:
                         value_name="mcap")
 
         mcap, prices, supply = self.create_and_set_index(mcap, prices, supply)
+        mcap = self.remove_nan(mcap)
+        prices = self.remove_nan(prices)
+        supply = self.remove_nan(supply)
 
         return mcap, prices, supply
 
@@ -85,5 +88,10 @@ class Pandaz:
         #df = df.join(df.groupby(Constant.CURRENC_COL).agg({mean_to_calc_col: ['mean']}))
 
         # TODO ? df = df.join(df.groupby([Constant.CURRENC_COL, 'weekday'])[mean_to_calc_col].mean(), on=['hour', 'weekday'], rsuffix='_avg')
-        #print(df)
+        print(df)
         print(df.query('cur=="ADA"'))
+
+    def remove_nan(self, df):
+        ## Remove NAN and Null
+        df = df.dropna()
+        return df
