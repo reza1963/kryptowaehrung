@@ -6,6 +6,7 @@ warnings.filterwarnings("ignore")
 pandaz = Pandaz("data/", 2020)
 m, p, s = pandaz.dataframes()
 
+# writ eto csv: m.to_csv("/tmp/xx.csv")
 print(" ***** mcap ***")
 print(m)
 

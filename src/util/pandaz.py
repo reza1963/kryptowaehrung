@@ -68,7 +68,7 @@ class Pandaz:
         df[Constant.DATE_INDEX] = pds.to_datetime(df[Constant.DATE_COL])
         df = df.set_index(pds.DatetimeIndex(df[Constant.DATE_INDEX]))
 
-        df = df[df[Constant.DATE_INDEX].dt.year == self.year]
+        df = df[df[Constant.DATE_INDEX].dt.year == self.year ]
         df = df.set_index(pds.DatetimeIndex(df[Constant.DATE_INDEX]))
 
         df.drop([Constant.DATE_COL], axis='columns', inplace=True)
@@ -79,9 +79,11 @@ class Pandaz:
     def weekly_mean(self, df, week_of_year, mean_to_calc_col):
         df = df[df[Constant.DATE_INDEX].dt.isocalendar().week == week_of_year]
         df[Constant.WEEK_OF_YEAR_COL] = df[Constant.DATE_INDEX].dt.isocalendar().week
-        print(df)
+        print(df.query('cur=="ADA"'))
         df = df.groupby(Constant.CURRENC_COL).agg({mean_to_calc_col: ['mean', 'min', 'max']})
-        #df = df.join(df.groupby(Constant.CURRENC_COL).agg({mean_to_calc_col: ['mean', 'min', 'max']}))
+        #df = df.groupby(Constant.CURRENC_COL).agg({mean_to_calc_col: ['mean', 'min', 'max']})
+        #df = df.join(df.groupby(Constant.CURRENC_COL).agg({mean_to_calc_col: ['mean']}))
 
         # TODO ? df = df.join(df.groupby([Constant.CURRENC_COL, 'weekday'])[mean_to_calc_col].mean(), on=['hour', 'weekday'], rsuffix='_avg')
-        print(df)
+        #print(df)
+        print(df.query('cur=="ADA"'))
